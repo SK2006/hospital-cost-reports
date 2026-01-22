@@ -5,7 +5,7 @@
 # download data for the years specified below
 # note that for the synthetic calendar year files, the output will run from STARTYEAR+1
 # to ENDYEAR-1
-STARTYEAR=1996
+STARTYEAR=2021
 ENDYEAR=2024
 
 # where to put HCRIS files. by default store in the source folder, but since files

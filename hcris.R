@@ -10,7 +10,7 @@ library(labelled)
 library(haven)
 
 # use cost reports from these years' data files
-START_YEAR <- 1996
+START_YEAR <- 2022
 END_YEAR <- 2024
 
 # with files from those years, we often (~50% of hospitals) don't observe
@@ -200,7 +200,55 @@ hcris_rpt <- hcris_rpt |>
       NA
     ),
     uccare_chg_harmonized = case_when(
-      fmt==96 ~ chguccare,
+      # fmt==96 ~ chguccare,
+      fmt==10 ~ totinitchcare-ppaychcare+nonmcbaddebt,
+      .default=NA
+    ),
+    uccare_cost_harmonized = ccr*uccare_chg_harmonized
+  )
+vars$dollar_flow <- vars$dollar_flow |>
+  c("income","totcost","prog_chg",
+    "uccare_chg_harmonized","uccare_cost_harmonized"
+  )
+
+# add some dollar flow vars we generate ourselves
+hcris_rpt <- hcris_rpt |>
+  mutate(
+    income = netpatrev+othinc,
+    totcost = opexp+othexp,
+    margin = (income-totcost)/income,
+    prog_chg = prog_rt_chg+prog_net_chg,
+    ccr_prog = if_else(
+      prog_op_cost > 0 & prog_chg > 0,
+      prog_op_cost/prog_chg,
+      NA
+    ),
+    uccare_chg_harmonized = case_when(
+      #fmt==96 ~ chguccare,
+      fmt==10 ~ totinitchcare-ppaychcare+nonmcbaddebt,
+      .default=NA
+    ),
+    uccare_cost_harmonized = ccr*uccare_chg_harmonized
+  )
+vars$dollar_flow <- vars$dollar_flow |>
+  c("income","totcost","prog_chg",
+    "uccare_chg_harmonized","uccare_cost_harmonized"
+  )
+
+# add some dollar flow vars we generate ourselves
+hcris_rpt <- hcris_rpt |>
+  mutate(
+    income = netpatrev+othinc,
+    totcost = opexp+othexp,
+    margin = (income-totcost)/income,
+    prog_chg = prog_rt_chg+prog_net_chg,
+    ccr_prog = if_else(
+      prog_op_cost > 0 & prog_chg > 0,
+      prog_op_cost/prog_chg,
+      NA
+    ),
+    uccare_chg_harmonized = case_when(
+      # fmt==96 ~ chguccare,
       fmt==10 ~ totinitchcare-ppaychcare+nonmcbaddebt,
       .default=NA
     ),
