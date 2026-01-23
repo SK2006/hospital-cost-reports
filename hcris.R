@@ -10,8 +10,8 @@ library(labelled)
 library(haven)
 
 # use cost reports from these years' data files
-START_YEAR <- 2022
-END_YEAR <- 2024
+START_YEAR <- 2021
+END_YEAR <- 2023
 
 # with files from those years, we often (~50% of hospitals) don't observe
 # reports covering the full calendar STARTYEAR. and often don't observe (~20%
