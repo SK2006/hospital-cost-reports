@@ -449,4 +449,3 @@ write_csv(hcris_ayear,"output/hcris_hospyear.csv")
 hcris_ayear |>
   rename_with(~ gsub("\\.","_",.x)) |>
   write_dta("output/hcris_hospyear.dta")
-
